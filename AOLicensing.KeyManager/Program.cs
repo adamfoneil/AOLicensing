@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandLine;
+using System;
 using System.Net.Http;
 
 namespace AOLicensing.KeyManager
@@ -9,12 +10,23 @@ namespace AOLicensing.KeyManager
 
         static void Main(string[] args)
         {
-            // create: create a new key for an email address (after someone purchases) and send to that person
+            Parser.Default
+                .ParseArguments<Options>(args)
+                .WithParsed(options =>
+                {
+                    switch (options.Action)
+                    {
+                        case Action.Create:
+                            break;
 
-            // query: find a key belonging to an email address (help someone recover)
+                        case Action.Query:
+                            break;
 
-            // verify: test validation of a key as a sanity check
-
+                        case Action.Validate:
+                            // this is for interactive validation. I don't see this being used very much
+                            break;
+                    }
+                });                
         }
     }
 }

@@ -22,7 +22,7 @@ namespace AOLicensing.Functions
     {
         [FunctionName("CreateKey")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Admin, "post", Route = null)] HttpRequest req,
             ILogger log, ExecutionContext context)
         {
             string requestInfo = null;

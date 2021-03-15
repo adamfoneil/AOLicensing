@@ -1,24 +1,23 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
+using AOLicensing.Functions.Extensions;
+using AOLicensing.Functions.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using AOLicensing.Functions.Extensions;
-using AOLicensing.Functions.Models;
-using Microsoft.Extensions.Configuration;
-using AOLicensing.Shared.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AOLicensing.Functions
 {
-    public static class ValidateKey
+    public static class QueryKey
     {
-        [FunctionName("ValidateKey")]
+        [FunctionName("QueryKey")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Admin, "get", Route = null)] HttpRequest req,
             ILogger log, ExecutionContext context)
         {
             string requestInfo = null;
@@ -29,20 +28,16 @@ namespace AOLicensing.Functions
                 errorContext = "inspecting request";
                 var json = await req.ReadAsStringAsync();
                 requestInfo = json;
-                var key = JsonConvert.DeserializeObject<LicenseKey>(json);
+                var key = JsonConvert.DeserializeObject<Shared.Models.CreateKey>(json);
 
                 errorContext = "searching for key";
                 var config = context.GetConfig();
                 var storageOptions = new StorageAccountOptions();
                 config.Bind("StorageAccount", storageOptions);
                 var keyStore = new KeyStore(storageOptions);
-                var result = await keyStore.ValidateKeyAsync(key);
 
-                return new OkObjectResult(new ValidateResult()
-                {
-                    Success = result.success,
-                    Message = result.message
-                });
+                var find = await keyStore.FindKeyAsync(key);
+                return new OkObjectResult(find.data.Select(keyInfo => keyInfo.Key));
             }
             catch (Exception exc)
             {

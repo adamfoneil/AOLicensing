@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,13 +44,13 @@ namespace AOLicensing.Functions
             }
         }
 
-        public async Task<(bool result, string message)> ValidateKeyAsync(LicenseKey licenseKey)
+        public async Task<(bool success, string message)> ValidateKeyAsync(LicenseKey licenseKey)
         {
-            var exists = await FindKeyAsync(licenseKey);
+            var find = await FindKeyAsync(licenseKey);
 
-            if (exists.result)
+            if (find.success)
             {
-                bool success = exists.data.Contains(new KeyInfo() { Key = licenseKey.Key });
+                bool success = find.data.Contains(new KeyInfo() { Key = licenseKey.Key });
                 string message = (success) ? "Key is valid" : "Key is not valid";
                 return (success, message);
             }
@@ -59,7 +60,7 @@ namespace AOLicensing.Functions
             }
         }
 
-        public async Task<(bool result, HashSet<KeyInfo> data)> FindKeyAsync(Shared.Models.CreateKey keyInfo)
+        public async Task<(bool success, HashSet<KeyInfo> data)> FindKeyAsync(Shared.Models.CreateKey keyInfo)
         {
             var blobClient = new BlobClient(_connectionString, _containerName, GetBlobName(keyInfo));
             if (await blobClient.ExistsAsync())
@@ -72,7 +73,7 @@ namespace AOLicensing.Functions
                 }
             }
 
-            return (false, null);
+            return (false, Enumerable.Empty<KeyInfo>().ToHashSet());
         }
 
         private string GetBlobName(Shared.Models.CreateKey key) => $"{key.Product}/{key.Email}.json";

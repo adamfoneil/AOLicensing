@@ -94,9 +94,8 @@ namespace AOLicensing.Desktop
             });
 
             var content = new StringContent(data, Encoding.UTF8, "application/json");
-
-            var url = KeyValidationEndpoint;
-            var response = await HttpClient.PostAsync(url, content);
+            
+            var response = await HttpClient.PostAsync(KeyValidationEndpoint, content);
             string json = await response.Content.ReadAsStringAsync();
             var validation = JsonConvert.DeserializeObject<ValidateResult>(json);
 
