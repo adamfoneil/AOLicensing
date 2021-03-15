@@ -1,5 +1,4 @@
 ﻿using AOLicensing.Desktop.Models;
-using AOLicensing.Shared;
 using AOLicensing.Shared.Models;
 using JsonSettings;
 using Newtonsoft.Json;
@@ -71,23 +70,21 @@ namespace AOLicensing.Desktop
             return JsonConvert.DeserializeObject<LicenseInfo>(wrapper.Info);
         }
 
-        private string LocalLicenseFilename()
-        {
-            return Path.Combine(
+        private string LocalLicenseFilename() => Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), CompanyName, ProductId + ".json");
-        }
-
+        
         protected abstract bool ShowActivationDialog(LicenseInfo licenseInfo);
 
-        protected abstract string ValidKeyResponse { get; }
-
+        /// <summary>
+        /// when deployed, this is aolicensing.azurewebsites.net/api/ValidateKey
+        /// </summary>
         protected abstract string KeyValidationEndpoint { get; }
 
         /// <summary>
         /// Called when user enters license key in UI to complete app purchase,
         /// removes expiration date from client-side registration info
         /// </summary>
-        public async Task<ActivateResult> ActivateAsync(string email, string key)
+        public async Task<ValidateResult> ActivateAsync(string email, string key)
         {
             var data = JsonConvert.SerializeObject(new LicenseKey()
             {
@@ -100,22 +97,17 @@ namespace AOLicensing.Desktop
 
             var url = KeyValidationEndpoint;
             var response = await HttpClient.PostAsync(url, content);
-            string result = await response.Content.ReadAsStringAsync();
+            string json = await response.Content.ReadAsStringAsync();
+            var validation = JsonConvert.DeserializeObject<ValidateResult>(json);
 
-            bool success = result.Equals(ValidKeyResponse);
-
-            if (success)
+            if (validation.Success)
             {
                 var license = GetLocalLicense();
                 license.Activate();
                 JsonFile.Save(LocalLicenseFilename(), LicenseWrapper.FromInfo(license));
             }
 
-            return new ActivateResult()
-            {
-                IsSuccessful = success,
-                Message = result
-            };
+            return validation;
         }
     }
 }

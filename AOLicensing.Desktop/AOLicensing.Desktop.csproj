@@ -5,7 +5,15 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Adam O'Neil</Authors>
     <Copyright>Copyright (c) 2021 Adam O'Neil</Copyright>
+    <PackageProjectUrl>https://github.com/adamfoneil/AOLicensing</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/adamfoneil/AOLicensing</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AOLicensing.Shared\Models\CreateKey.cs" Link="Shared\CreateKey.cs" />
+    <Compile Include="..\AOLicensing.Shared\Models\LicenseKey.cs" Link="Shared\LicenseKey.cs" />
+    <Compile Include="..\AOLicensing.Shared\Models\ValidateResult.cs" Link="Shared\ValidateResult.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JsonSettings.Library" Version="1.0.20" />
@@ -13,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AOLicensing.Shared\AOLicensing.Shared.csproj" />
+    <Folder Include="Shared\" />
   </ItemGroup>
 
 </Project>

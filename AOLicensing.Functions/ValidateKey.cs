@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using AOLicensing.Functions.Extensions;
 using AOLicensing.Functions.Models;
 using Microsoft.Extensions.Configuration;
+using AOLicensing.Shared.Models;
 
 namespace AOLicensing.Functions
 {
@@ -28,7 +29,7 @@ namespace AOLicensing.Functions
                 errorContext = "inspecting request";
                 var json = await req.ReadAsStringAsync();
                 requestInfo = json;
-                var key = JsonConvert.DeserializeObject<Shared.Models.LicenseKey>(json);
+                var key = JsonConvert.DeserializeObject<LicenseKey>(json);
 
                 errorContext = "searching for key";
                 var config = context.GetConfig();
@@ -37,10 +38,10 @@ namespace AOLicensing.Functions
                 var keyStore = new KeyStore(storageOptions);
                 var result = await keyStore.ValidateKeyAsync(key);
 
-                return new OkObjectResult(new
+                return new OkObjectResult(new ValidateResult()
                 {
-                    result = result.result,
-                    message = result.message
+                    Success = result.result,
+                    Message = result.message
                 });
             }
             catch (Exception exc)
