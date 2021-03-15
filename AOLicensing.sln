@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOLicensing.Desktop", "AOLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOLicensing.Shared", "AOLicensing.Shared\AOLicensing.Shared.csproj", "{EB47FAE7-03EC-4723-8C48-50A7DFF38333}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOLicensing.KeyManager", "AOLicensing.KeyManager\AOLicensing.KeyManager.csproj", "{9BA0A004-7DAF-4CC7-9325-36F903027AE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EB47FAE7-03EC-4723-8C48-50A7DFF38333}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB47FAE7-03EC-4723-8C48-50A7DFF38333}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB47FAE7-03EC-4723-8C48-50A7DFF38333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA0A004-7DAF-4CC7-9325-36F903027AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA0A004-7DAF-4CC7-9325-36F903027AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA0A004-7DAF-4CC7-9325-36F903027AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA0A004-7DAF-4CC7-9325-36F903027AE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

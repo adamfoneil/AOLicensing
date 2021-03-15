@@ -7,6 +7,11 @@
     <Copyright>Copyright (c) 2021 Adam O'Neil</Copyright>
     <PackageProjectUrl>https://github.com/adamfoneil/AOLicensing</PackageProjectUrl>
     <RepositoryUrl>https://github.com/adamfoneil/AOLicensing</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>A desktop app activation and licensing mechanism for .NET Standard 2.0 using Azure blob storage</Description>
+    <PackageId>AO.Licensing.Desktop</PackageId>
+    <Version>1.1.0</Version>
+    <Product>AO.Licensing.Desktop</Product>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +27,13 @@
 
   <ItemGroup>
     <Folder Include="Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
