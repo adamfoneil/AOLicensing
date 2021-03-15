@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOLicensing.Shared", "AOLic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOLicensing.KeyManager", "AOLicensing.KeyManager\AOLicensing.KeyManager.csproj", "{9BA0A004-7DAF-4CC7-9325-36F903027AE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{6200689B-F3BE-4E3A-89DB-0D6CA496FA1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9BA0A004-7DAF-4CC7-9325-36F903027AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BA0A004-7DAF-4CC7-9325-36F903027AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BA0A004-7DAF-4CC7-9325-36F903027AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6200689B-F3BE-4E3A-89DB-0D6CA496FA1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6200689B-F3BE-4E3A-89DB-0D6CA496FA1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6200689B-F3BE-4E3A-89DB-0D6CA496FA1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6200689B-F3BE-4E3A-89DB-0D6CA496FA1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

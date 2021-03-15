@@ -9,7 +9,7 @@ namespace AOLicensing.KeyManager
     {
         static async Task Main(string[] args)
         {
-            var client = new LicensingClient("https://aosoftware.ngrok.io");
+            var client = new LicensingClient("https://aolicensing.azurewebsites.net");
 
             await Parser.Default
                 .ParseArguments<Options>(args)

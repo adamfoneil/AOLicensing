@@ -10,8 +10,8 @@ namespace AOLicensing.Shared.Interfaces
         [Post("/api/CreateKey?code={code}")]
         Task<LicenseKey> CreateAsync(CreateKey key, string code);
 
-        [Get("/api/ValidateKey?email={key.Email}&product={key.Product}&key={key.Key}")]
-        Task<ValidateResult> ValidateAsync(LicenseKey key);
+        [Get("/api/ValidateKey")]
+        Task<ValidateResult> ValidateAsync([Body]LicenseKey key);
 
         [Get("/api/QueryKey?email={key.Email}&product={key.Product}&code={code}")]
         Task<IReadOnlyList<string>> QueryAsync(CreateKey key, string code);
