@@ -5,8 +5,13 @@
     <UserSecretsId>f487775b-b3e7-49a6-9d0f-bb524cc9464b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AO.StringId" Version="1.0.2" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.8.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AOLicensing.Shared\AOLicensing.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
