@@ -15,15 +15,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\AOLicensing.Shared\Interfaces\ILicensingClient.cs" Link="Shared\ILicensingClient.cs" />
+    <Compile Include="..\AOLicensing.Shared\LicensingClient.cs" Link="LicensingClient.cs" />
     <Compile Include="..\AOLicensing.Shared\Models\CreateKey.cs" Link="Shared\CreateKey.cs" />
     <Compile Include="..\AOLicensing.Shared\Models\LicenseKey.cs" Link="Shared\LicenseKey.cs" />
     <Compile Include="..\AOLicensing.Shared\Models\ValidateResult.cs" Link="Shared\ValidateResult.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="JsonSettings.Library" Version="1.0.20" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Refit" Version="6.0.24" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace AOLicensing.Shared
             {
                 AuthorizationHeaderValueWithParamGetter = async (msg) =>
                 {
-                    return await Task.FromResult($"code={_adminCode}");
+                    return await Task.FromResult($"?code={_adminCode}");
                 }
             });
         }
