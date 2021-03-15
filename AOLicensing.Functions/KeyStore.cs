@@ -27,7 +27,7 @@ namespace AOLicensing.Functions
         {
             var blobClient = new BlobClient(_connectionString, _containerName, GetBlobName(licenseKey));            
             var exists = await FindKeyAsync(licenseKey);            
-            var data = (exists.result) ? exists.data : new HashSet<KeyInfo>();
+            var data = (exists.success) ? exists.data : new HashSet<KeyInfo>();
             
             data.Add(new KeyInfo() { Key = licenseKey.Key });
 
