@@ -1,4 +1,5 @@
 using AOLicensing.Functions.Extensions;
+using AOLicensing.Functions.Models;
 using AOLicensing.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,9 +7,14 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SendGrid;
 using StringIdLibrary;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using SendGrid.Helpers.Mail;
+using Markdig;
+using System.Linq;
 
 namespace AOLicensing.Functions
 {
@@ -43,14 +49,20 @@ namespace AOLicensing.Functions
                         .Build()
                 };
 
+                var config = context.GetConfig();
+
                 // save to storage account
                 errorContext = "saving key";
-                var config = context.GetConfig();
-                var keyStore = new KeyStore(config["StorageAccount:ConnectionString"], config["StorageAccount:ContainerName"]);
+                var storageOptions = new StorageAccountOptions();
+                config.Bind("StorageAccount", storageOptions);
+                var keyStore = new KeyStore(storageOptions);
                 await keyStore.SaveKeyAsync(key);
 
                 // send to user            
                 errorContext = "sending key to user";
+                var sendGridOptions = new SendGridOptions();
+                config.GetSection("SendGrid").Bind(sendGridOptions);
+                await SendConfirmationEmailAsync(key, sendGridOptions);
 
                 log.LogInformation(JsonConvert.SerializeObject(key));
                 return new OkObjectResult(key);
@@ -60,6 +72,22 @@ namespace AOLicensing.Functions
                 log.LogError(exc, $"{exc.Message} while {errorContext}: {requestInfo}");
                 return new BadRequestObjectResult(exc.Message);
             }
+        }
+
+        private async static Task SendConfirmationEmailAsync(LicenseKey key, SendGridOptions options)
+        {
+            var client = new SendGridClient(options.ApiKey);
+            var from = new EmailAddress(options.SenderEmail, options.SenderName);
+            var to = new EmailAddress(key.Email);
+
+            string stringContent = $"Thank you for your purchase of {key.Product}!\r\n\r\nYour license key is below:\r\n\r\n{key.Key}";
+            string htmlContent = Markdown.ToHtml(stringContent);
+
+            var message = MailHelper.CreateSingleEmailToMultipleRecipients(from,
+                new EmailAddress[] { to, from }.ToList(),
+                "Your license key from aosoftware.net", stringContent, htmlContent);
+
+            await client.SendEmailAsync(message);
         }
     }
 }

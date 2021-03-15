@@ -1,4 +1,5 @@
-﻿using AOLicensing.Shared.Models;
+﻿using AOLicensing.Functions.Models;
+using AOLicensing.Shared.Models;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Newtonsoft.Json;
@@ -15,10 +16,10 @@ namespace AOLicensing.Functions
         private readonly string _connectionString;
         private readonly string _containerName;
 
-        public KeyStore(string connectionString, string containerName)
+        public KeyStore(StorageAccountOptions options)
         {
-            _connectionString = connectionString;
-            _containerName = containerName;
+            _connectionString = options.ConnectionString;
+            _containerName = options.ContainerName;
         }
 
         public async Task SaveKeyAsync(LicenseKey licenseKey)
@@ -48,7 +49,7 @@ namespace AOLicensing.Functions
 
             if (exists.result)
             {
-                bool success = exists.data.Contains(new KeyInfo() { Key = licenseKey.Email });
+                bool success = exists.data.Contains(new KeyInfo() { Key = licenseKey.Key });
                 string message = (success) ? "Key is valid" : "Key is not valid";
                 return (success, message);
             }
@@ -74,7 +75,7 @@ namespace AOLicensing.Functions
             return (false, null);
         }
 
-        private string GetBlobName(Shared.Models.CreateKey key) => $"{key.Product}/{key.Email}";
+        private string GetBlobName(Shared.Models.CreateKey key) => $"{key.Product}/{key.Email}.json";
 
         public class KeyInfo
         {

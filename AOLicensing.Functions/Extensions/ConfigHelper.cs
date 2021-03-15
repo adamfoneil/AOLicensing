@@ -9,6 +9,7 @@ namespace AOLicensing.Functions.Extensions
         {
             return new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
+                .AddJsonFile("config.json", true)
                 .AddEnvironmentVariables()
                 .Build();
         }

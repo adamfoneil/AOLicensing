@@ -7,6 +7,9 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using AOLicensing.Functions.Extensions;
+using AOLicensing.Functions.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace AOLicensing.Functions
 {
@@ -14,22 +17,37 @@ namespace AOLicensing.Functions
     {
         [FunctionName("ValidateKey")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req,
+            ILogger log, ExecutionContext context)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            string requestInfo = null;
+            string errorContext = null;
 
-            string name = req.Query["name"];
+            try
+            {
+                errorContext = "inspecting request";
+                var json = await req.ReadAsStringAsync();
+                requestInfo = json;
+                var key = JsonConvert.DeserializeObject<Shared.Models.LicenseKey>(json);
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+                errorContext = "searching for key";
+                var config = context.GetConfig();
+                var storageOptions = new StorageAccountOptions();
+                config.Bind("StorageAccount", storageOptions);
+                var keyStore = new KeyStore(storageOptions);
+                var result = await keyStore.ValidateKeyAsync(key);
 
-            string responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
-
-            return new OkObjectResult(responseMessage);
+                return new OkObjectResult(new
+                {
+                    result = result.result,
+                    message = result.message
+                });
+            }
+            catch (Exception exc)
+            {
+                log.LogError(exc, $"{exc.Message} while {errorContext}: {requestInfo}");
+                return new BadRequestObjectResult(exc.Message);
+            }
         }
     }
 }
