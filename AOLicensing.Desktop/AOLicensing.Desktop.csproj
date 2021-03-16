@@ -10,7 +10,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>A desktop app activation and licensing mechanism for .NET Standard 2.0 using Azure blob storage</Description>
     <PackageId>AO.Licensing.Desktop</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Product>AO.Licensing.Desktop</Product>
   </PropertyGroup>
 
