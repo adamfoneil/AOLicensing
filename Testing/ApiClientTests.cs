@@ -8,8 +8,8 @@ namespace Testing
     [TestClass]
     public class ApiClientTests
     {
-        //const string HostUrl = "https://aolicensing.azurewebsites.net";
-        const string HostUrl = "https://aosoftware.ngrok.io";
+        const string HostUrl = "https://aolicensing.azurewebsites.net";
+        //const string HostUrl = "https://aosoftware.ngrok.io";
 
         [TestMethod]
         public void CreateKey()
