@@ -1,5 +1,6 @@
 using AOLicensing.Shared;
 using AOLicensing.Shared.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Testing
@@ -12,7 +13,9 @@ namespace Testing
         [TestMethod]
         public void CreateKey()
         {
-            var client = new LicensingClient(HostUrl, "hello");
+            var config = GetConfig();
+
+            var client = new LicensingClient(HostUrl, config["Codes:Master"]);
             var result = client.CreateKeyAsync(new CreateKey()
             {
                 Email = "adamosoftware@gmail.com",
@@ -35,5 +38,9 @@ namespace Testing
 
             Assert.IsTrue(result.Success);
         }
+
+        private static IConfiguration GetConfig() => new ConfigurationBuilder()
+            .AddJsonFile("Config\\config.json", false)
+            .Build();
     }
 }

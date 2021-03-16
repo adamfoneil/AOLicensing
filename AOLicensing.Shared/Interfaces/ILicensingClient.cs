@@ -9,7 +9,7 @@ namespace AOLicensing.Shared.Interfaces
     internal interface ILicensingClient
     {                
         [Post("/api/CreateKey?code={code}")]
-        Task<LicenseKey> CreateAsync(CreateKey key, string code);
+        Task<LicenseKey> CreateAsync(CreateKey key, [Query]string code);
         
         [Post("/api/ValidateKey")]
         Task<ValidateResult> ValidateAsync([Body]LicenseKey key);
