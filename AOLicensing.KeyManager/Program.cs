@@ -31,7 +31,7 @@ namespace AOLicensing.KeyManager
 
             do
             {
-                Console.WriteLine($"Action ({string.Join(", ", actions.Select(kp => $"{kp.Key} = {kp.Value.Item1}"))}");
+                Console.WriteLine($"Action ({string.Join(", ", actions.Select(kp => $"{kp.Key} = {kp.Value.Item1}"))})");
                 var actionKey = Console.ReadLine();
                 var action = actions[actionKey];
 
