@@ -7,13 +7,6 @@ using System.Threading.Tasks;
 
 namespace AOLicensing.KeyManager
 {
-    internal enum ActionType
-    {
-        Query,
-        Create,
-        Validate
-    }
-
     class Program
     {
         static async Task Main(string[] args)
@@ -23,10 +16,10 @@ namespace AOLicensing.KeyManager
             
             Console.WriteLine("AOLicensing KeyManager");
 
-            Dictionary<string, (string, ActionType, Func<string, string, Task>)> actions = new Dictionary<string, (string, ActionType, Func<string, string, Task>)>()
+            Dictionary<string, (string, Func<string, string, Task>)> actions = new Dictionary<string, (string, Func<string, string, Task>)>()
             {
-                ["q"] = ("Query", ActionType.Query, async (email, product) => await QueryKeyAsync(client, product, email)),
-                ["c"] = ("Create Key", ActionType.Create, async (email, product) => await CreateKeyAsync(client, product, email))
+                ["q"] = ("Query", async (email, product) => await QueryKeyAsync(client, product, email)),
+                ["c"] = ("Create Key", async (email, product) => await CreateKeyAsync(client, product, email))
             };
 
             do
@@ -43,7 +36,7 @@ namespace AOLicensing.KeyManager
                 Console.WriteLine("Product:");
                 var product = Console.ReadLine();
 
-                await action.Item3.Invoke(email, product);
+                await action.Item2.Invoke(email, product);
             } while (true);
 
         }
