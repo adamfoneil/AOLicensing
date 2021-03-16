@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 namespace AOLicensing.Shared.Interfaces
 {    
-    [Headers("Content-Type: application/json")]
     internal interface ILicensingClient
     {                
         [Post("/api/CreateKey?code={code}")]
