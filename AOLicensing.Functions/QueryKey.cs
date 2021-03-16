@@ -26,9 +26,7 @@ namespace AOLicensing.Functions
             try
             {
                 errorContext = "inspecting request";
-                var json = await req.ReadAsStringAsync();
-                requestInfo = json;
-                var key = JsonConvert.DeserializeObject<Shared.Models.CreateKey>(json);
+                var key = req.BindGet<Shared.Models.CreateKey>();
 
                 errorContext = "searching for key";
                 var config = context.GetConfig();

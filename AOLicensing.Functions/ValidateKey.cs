@@ -18,7 +18,7 @@ namespace AOLicensing.Functions
     {
         [FunctionName("ValidateKey")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req,
             ILogger log, ExecutionContext context)
         {
             string requestInfo = null;
@@ -27,9 +27,7 @@ namespace AOLicensing.Functions
             try
             {
                 errorContext = "inspecting request";
-                var json = await req.ReadAsStringAsync();
-                requestInfo = json;
-                var key = JsonConvert.DeserializeObject<LicenseKey>(json);
+                var key = req.BindGet<LicenseKey>();
 
                 errorContext = "searching for key";
                 var config = context.GetConfig();

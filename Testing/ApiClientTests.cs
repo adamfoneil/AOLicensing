@@ -7,8 +7,9 @@ namespace Testing
 {
     [TestClass]
     public class ApiClientTests
-    {                                
-        const string HostUrl = "https://aolicensing.azurewebsites.net";
+    {
+        //const string HostUrl = "https://aolicensing.azurewebsites.net";
+        const string HostUrl = "https://aosoftware.ngrok.io";
 
         [TestMethod]
         public void CreateKey()
@@ -37,6 +38,21 @@ namespace Testing
             }).Result;
 
             Assert.IsTrue(result.Success);
+        }
+
+        [TestMethod]
+        public void QueryKey()
+        {
+            var config = GetConfig();
+
+            var client = new LicensingClient(HostUrl, config["Codes:Master"]);
+            var result = client.QueryAsync(new CreateKey()
+            {
+                Email = "adamosoftware@gmail.com",
+                Product = "SampleProduct"
+            }).Result;
+
+            Assert.IsTrue(result.Count > 0);
         }
 
         private static IConfiguration GetConfig() => new ConfigurationBuilder()
