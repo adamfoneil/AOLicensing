@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AOLicensing.KeyManager
 {
-    internal enum Action
+    internal enum ActionType
     {
         Query,
         Create,
@@ -23,16 +23,18 @@ namespace AOLicensing.KeyManager
             
             Console.WriteLine("AOLicensing KeyManager");
 
-            Dictionary<string, (string, Action)> actions = new Dictionary<string, (string, Action)>()
+            Dictionary<string, (string, ActionType, Func<string, string, Task>)> actions = new Dictionary<string, (string, ActionType, Func<string, string, Task>)>()
             {
-                ["q"] = ("Query", Action.Query),
-                ["c"] = ("Create Key", Action.Create)
+                ["q"] = ("Query", ActionType.Query, async (email, product) => await QueryKeyAsync(client, product, email)),
+                ["c"] = ("Create Key", ActionType.Create, async (email, product) => await CreateKeyAsync(client, product, email))
             };
 
             do
             {
                 Console.WriteLine($"Action ({string.Join(", ", actions.Select(kp => $"{kp.Key} = {kp.Value.Item1}"))})");
                 var actionKey = Console.ReadLine();
+                if (!actions.ContainsKey(actionKey)) continue;
+
                 var action = actions[actionKey];
 
                 Console.WriteLine($"{action.Item1} - customer email:");
@@ -41,16 +43,7 @@ namespace AOLicensing.KeyManager
                 Console.WriteLine("Product:");
                 var product = Console.ReadLine();
 
-                switch (action.Item2)
-                {
-                    case Action.Create:
-                        await CreateKeyAsync(client, product, email);
-                        break;
-
-                    case Action.Query:
-                        await QueryKeyAsync(client, product, email);
-                        break;
-                }
+                await action.Item3.Invoke(email, product);
             } while (true);
 
         }
