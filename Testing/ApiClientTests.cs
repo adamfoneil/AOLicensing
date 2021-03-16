@@ -6,7 +6,7 @@ namespace Testing
 {
     [TestClass]
     public class ApiClientTests
-    {
+    {                                
         const string HostUrl = "https://aolicensing.azurewebsites.net";
 
         [TestMethod]

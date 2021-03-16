@@ -18,7 +18,7 @@ namespace AOLicensing.Functions
     {
         [FunctionName("ValidateKey")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
             ILogger log, ExecutionContext context)
         {
             string requestInfo = null;
