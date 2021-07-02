@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,8 +10,10 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>A desktop app activation and licensing mechanism for .NET Standard 2.0 using Azure blob storage</Description>
     <PackageId>AO.Licensing.Desktop</PackageId>
-    <Version>1.1.1</Version>
+    <Version>1.1.3</Version>
     <Product>AO.Licensing.Desktop</Product>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
