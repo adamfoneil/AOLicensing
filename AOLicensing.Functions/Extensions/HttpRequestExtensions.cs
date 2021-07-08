@@ -7,8 +7,8 @@ namespace AOLicensing.Functions.Extensions
     public static class HttpRequestExtensions
     {
         public static T BindGet<T>(this HttpRequest request) where T : class, new()
-        {
-            if (!request.Method.ToLower().Equals("get")) throw new ArgumentException($"Expected 'GET' method, but got '{request.Method}'");
+        {            
+            if (!HttpMethods.IsGet(request.Method)) throw new ArgumentException($"Expected 'GET' method, but got '{request.Method}'");
 
             var result = new T();
             
