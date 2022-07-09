@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>5a664fcb-5e4e-479d-872f-f47dbbb60ade</UserSecretsId>
   </PropertyGroup>
 
